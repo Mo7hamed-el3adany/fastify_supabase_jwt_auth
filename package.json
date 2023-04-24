@@ -1,0 +1,20 @@
+{
+  "name": "task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^8.2.1",
+    "@fastify/helmet": "^10.1.0",
+    "bcrypt": "^5.1.0",
+    "fastify": "^4.15.0",
+    "fastify-supabase": "^1.2.1",
+    "jsonwebtoken": "^9.0.0"
+  }
+}
