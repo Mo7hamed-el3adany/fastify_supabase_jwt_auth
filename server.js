@@ -10,7 +10,17 @@ const helmet = require('@fastify/helmet')
   supabaseUrl: 'https://bevqnwopqnsnyedffrdr.supabase.co',
   helmet
 })
-
+fastify.get('/', async (request, reply) => {
+try{
+reply.send({
+  msg:"jwt auth with fastify and supabaseDB"
+})
+}catch(err){
+  return reply.send({
+    msg: err.message
+  });
+}
+})
 fastify.post('/register', async (request, reply) => {
   try {
     const {
