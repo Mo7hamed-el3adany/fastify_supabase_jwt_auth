@@ -25,16 +25,16 @@ fastify.post('/register', async (request, reply) => {
       email
     })
     if (user)
-      return reply.status(400).json({
-        msg: "The email already exists."
-      });
+          return reply.send({
+            status:400,
+            msg: "The email already exists."
+          })
 
     if (password.length < 6)
-      return reply
-        .status(400)
-        .json({
-          msg: "Password is at least 6 characters long."
-        });
+      return reply.send({
+        status:400,
+        msg: "Password is at least 6 characters long."
+      })
 
     // Password Encryption
     const passwordHash = await bcrypt.hash(password, 10);
@@ -57,11 +57,11 @@ fastify.post('/register', async (request, reply) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
-    reply.json({
+    reply.send({
       accesstoken
     });
   } catch (err) {
-    return reply.status(500).json({
+    reply.send({
       msg: err.message
     });
   }
@@ -81,12 +81,15 @@ fastify.post('/login', async (request, reply) => {
       email
     })
     if (!user)
-      return reply.status(400).json({
+      reply.send({
+        status:400,
         msg: "User does not exist."
       });
+      
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return reply.status(400).json({
+    if (!isMatch) return reply.send({
+      status:400,
       msg: "Incorrect password."
     });
     // Then create jsonwebtoken , refreshtoken to authentication
@@ -103,11 +106,12 @@ fastify.post('/login', async (request, reply) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
 
-    reply.json({
+    reply.send({
+      status:200,
       accesstoken
     });
   } catch (err) {
-    return reply.status(500).json({
+    return reply.send({
       msg: err.message
     });
   }
@@ -118,11 +122,12 @@ fastify.post('/logout', async (request, reply) => {
     reply.clearCookie("refreshtoken", {
       path: "/user/refresh_token"
     });
-    return reply.json({
+    return reply.send({
+      status:200,
       msg: "Logged out"
     });
   } catch (err) {
-    return reply.status(500).json({
+    return reply.send({
       msg: err.message
     });
   }
